@@ -1,0 +1,108 @@
+[gd_scene load_steps=9 format=2]
+
+[ext_resource path="res://Maps/map01-environment.tres" type="Environment" id=2]
+[ext_resource path="res://interface/scenes/HUD.tscn" type="PackedScene" id=6]
+[ext_resource path="res://Utils/scenes/SpawnPoint.tscn" type="PackedScene" id=7]
+[ext_resource path="res://Maps/scripts/Map.gd" type="Script" id=8]
+[ext_resource path="res://interface/scenes/Lobby.tscn" type="PackedScene" id=9]
+[ext_resource path="res://assets/audio/kill-sound.wav" type="AudioStream" id=11]
+[ext_resource path="res://Maps/scenes/120-floor.tscn" type="PackedScene" id=12]
+
+[sub_resource type="BoxShape" id=1]
+extents = Vector3( 96.5, 1, 104 )
+
+[node name="Game" type="Node"]
+script = ExtResource( 8 )
+
+[node name="CanvasLayer" type="CanvasLayer" parent="."]
+
+[node name="MainHUD" parent="CanvasLayer" instance=ExtResource( 6 )]
+visible = false
+
+[node name="Lobby" parent="CanvasLayer" instance=ExtResource( 9 )]
+
+[node name="Camera" type="Camera" parent="."]
+transform = Transform( 0.802548, 0.00880018, 0.596522, 0, 0.999891, -0.0147509, -0.596587, 0.0118383, 0.802461, 22.5046, 5.15264, 36.0232 )
+current = true
+far = 250.0
+
+[node name="Level" type="Node" parent="."]
+
+[node name="BasicStructure" type="Node" parent="Level"]
+
+[node name="floor" parent="Level/BasicStructure" instance=ExtResource( 12 )]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -0.0183649, 0.0333304, -0.0705986 )
+
+[node name="Players" type="Node" parent="."]
+
+[node name="SpawnPoints" type="Node" parent="."]
+
+[node name="SP1" parent="SpawnPoints" instance=ExtResource( 7 )]
+transform = Transform( 0.688013, 0, -0.725698, 0, 1, 0, 0.725698, 0, 0.688013, -53.89, 20.6213, 53.373 )
+
+[node name="SP4" parent="SpawnPoints" instance=ExtResource( 7 )]
+transform = Transform( 0.0314978, 0, 0.999504, 0, 1, 0, -0.999504, 0, 0.0314978, 27.28, 1, 47.402 )
+
+[node name="SP2" parent="SpawnPoints" instance=ExtResource( 7 )]
+transform = Transform( -0.426047, 0, 0.904701, 0, 1, 0, -0.904701, 0, -0.426047, 40.013, 1, -21.413 )
+
+[node name="SP3" parent="SpawnPoints" instance=ExtResource( 7 )]
+transform = Transform( -0.187107, 0, -0.98234, 0, 1, 0, 0.98234, 0, -0.187107, -21.425, 1, -43.318 )
+
+[node name="SP10" parent="SpawnPoints" instance=ExtResource( 7 )]
+transform = Transform( 0.998538, 0, 0.0540613, 0, 1, 0, -0.0540613, 0, 0.998538, 3.39701, 1, 38.952 )
+
+[node name="SP9" parent="SpawnPoints" instance=ExtResource( 7 )]
+transform = Transform( -0.0510807, 0, 0.998695, 0, 1, 0, -0.998695, 0, -0.0510807, 55.908, 1, -54.492 )
+
+[node name="SP6" parent="SpawnPoints" instance=ExtResource( 7 )]
+transform = Transform( -0.966295, 0, -0.257436, 0, 1, 0, 0.257436, 0, -0.966295, -52.464, 1, -55.48 )
+
+[node name="SP8" parent="SpawnPoints" instance=ExtResource( 7 )]
+transform = Transform( 0.767747, 0, -0.640753, 0, 1, 0, 0.640753, 0, 0.767747, -55.374, 14, 25.946 )
+
+[node name="SP11" parent="SpawnPoints" instance=ExtResource( 7 )]
+transform = Transform( -0.431928, 0, -0.901908, 0, 1, 0, 0.901908, 0, -0.431928, -55.374, 14, -2.03373 )
+
+[node name="SP7" parent="SpawnPoints" instance=ExtResource( 7 )]
+transform = Transform( 0.15659, 0, -0.987664, 0, 1, 0, 0.987664, 0, 0.15659, -13.916, 14, 53.865 )
+
+[node name="SP12" parent="SpawnPoints" instance=ExtResource( 7 )]
+transform = Transform( -0.0658043, 0, 0.997833, 0, 1, 0, -0.997833, 0, -0.0658043, 50.037, 14, 48.2724 )
+
+[node name="SP5" parent="SpawnPoints" instance=ExtResource( 7 )]
+transform = Transform( -0.843325, 0, 0.537403, 0, 1, 0, -0.537403, 0, -0.843325, 56.746, 14, -52.93 )
+
+[node name="DeathArea" type="Area" parent="."]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -14, 0 )
+visible = false
+collision_layer = 0
+monitorable = false
+
+[node name="CollisionShape" type="CollisionShape" parent="DeathArea"]
+shape = SubResource( 1 )
+
+[node name="WorldEnvironment" type="WorldEnvironment" parent="."]
+environment = ExtResource( 2 )
+
+[node name="Lights" type="Node" parent="."]
+
+[node name="FadeInTween" type="Tween" parent="."]
+
+[node name="FadeOutTween" type="Tween" parent="."]
+
+[node name="MusicPlayerA" type="AudioStreamPlayer" parent="."]
+volume_db = -30.0
+
+[node name="MusicPlayerB" type="AudioStreamPlayer" parent="."]
+volume_db = -30.0
+
+[node name="KillSoundPlayer" type="AudioStreamPlayer" parent="."]
+stream = ExtResource( 11 )
+
+[connection signal="_on_player_can_spawn" from="CanvasLayer/MainHUD" to="." method="_on_player_can_spawn"]
+[connection signal="on_exit_to_lobby" from="CanvasLayer/MainHUD" to="CanvasLayer/Lobby" method="_on_exit_to_lobby"]
+[connection signal="on_game_begin" from="CanvasLayer/Lobby" to="." method="_on_game_begin"]
+[connection signal="on_game_begin" from="CanvasLayer/Lobby" to="CanvasLayer/MainHUD" method="_on_game_begin"]
+[connection signal="body_entered" from="DeathArea" to="." method="_on_DeathArea_body_entered"]
+[connection signal="tween_completed" from="FadeOutTween" to="." method="_on_FadeOutTween_tween_completed"]
